@@ -4,16 +4,17 @@
  * @Author: dpx
  * @Date: 2020-06-04 13:44:37
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-08 10:04:56
+ * @LastEditTime: 2020-06-08 14:25:49
  */ 
 // import creatDiv from './avt'
 // import creatDivs from './avt copy'
 import {add} from './count'
 // import _ from 'loadsh'
-
+// import './index.scss'
 
 function getComponents(){
-  return import(/* webpackChunkName:'lodash' */'lodash').then(({default:_})=>{
+  // return import(/* webpackChunkName:'lodash' */'lodash').then(({default:_})=>{
+    return import(/* webpackPrefetch:true *//* webpackChunkName:'lodash' */'lodash').then(({default:_})=>{
     let foo = document.createElement('div')
     foo.innerHTML = _.join(['xing','x'],'%')
     return foo
