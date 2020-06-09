@@ -4,7 +4,7 @@
  * @Author: dpx
  * @Date: 2020-06-02 12:00:29
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-08 17:33:58
+ * @LastEditTime: 2020-06-09 10:57:30
  * ==================
  * 1.source-map 方式
  * 2.bable-polyfill  useBuiltIns:'usage' 转义ES6=>ES5 增大文件体积 
@@ -30,7 +30,6 @@ const merge = require("webpack-merge")
 const webpack = require("webpack");
 const prodConfig = require("./webpack.prod.conf")
 const devConfig = require("./webpack.dev.conf")
-
 
 const baseConfig = {
     entry: {
@@ -129,9 +128,7 @@ const baseConfig = {
         path: path.resolve(__dirname, "../dist"),
     },
 };
-
 module.exports = (env)=>{
-  debugger
   if (env && env.production){
     return merge(baseConfig,prodConfig)
   } else {
