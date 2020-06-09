@@ -4,7 +4,7 @@
  * @Author: dpx
  * @Date: 2020-06-02 12:00:29
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-08 17:26:14
+ * @LastEditTime: 2020-06-08 17:33:58
  * ==================
  * 1.source-map 方式
  * 2.bable-polyfill  useBuiltIns:'usage' 转义ES6=>ES5 增大文件体积 
@@ -131,6 +131,7 @@ const baseConfig = {
 };
 
 module.exports = (env)=>{
+  debugger
   if (env && env.production){
     return merge(baseConfig,prodConfig)
   } else {
