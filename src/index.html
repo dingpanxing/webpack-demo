@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: dpx
+ * @Date: 2020-06-04 13:44:37
+ * @LastEditors: dpx
+ * @LastEditTime: 2020-06-10 15:00:36
+--> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,3 +20,25 @@
 </body>
 
 </html>
+<script>
+
+// if('serviceWorker' in navigator){
+//   window.addEventListener('load',()=>{
+//     navigator.serviceWorker.register('/service-worker.js').then(resistration =>{
+//       console.log('service run navigator')
+//     }).catch(error=>{
+//       console.log('service work error')
+//     })
+//   })
+// }
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+        console.log('SW registered: ', registration);
+        }).catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+        });
+    });
+}
+</script>

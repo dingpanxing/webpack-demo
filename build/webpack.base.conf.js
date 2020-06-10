@@ -4,7 +4,7 @@
  * @Author: dpx
  * @Date: 2020-06-02 12:00:29
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-10 10:50:10
+ * @LastEditTime: 2020-06-10 11:35:53
  * ==================
  * 1.source-map 方式
  * 2.bable-polyfill  useBuiltIns:'usage' 转义ES6=>ES5 增大文件体积 
@@ -19,6 +19,9 @@
  * 5.imports-loader {loader:'imports-loader?this => window'} 改变this指向
  * ==================
  * 6.环境变量使用 module.exports = (env) =>{if(env && env.production){return merge()}}
+ * ==================
+ * PWA
+ * npm install workbox-webpack-plugin -d
  * 
  */
 const path = require("path");
@@ -27,10 +30,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const merge = require("webpack-merge")
-const webpack = require("webpack");
+// const webpack = require("webpack");
 const prodConfig = require("./webpack.prod.conf")
 const devConfig = require("./webpack.dev.conf")
-const devMode = process.env.NODE_ENV === 'development';
 const baseConfig = {
     entry: {
         main: "./src/index.js",
@@ -80,12 +82,12 @@ const baseConfig = {
                 use: [
                     {
                       loader: MiniCssExtractPlugin.loader,
-                      options: {
-                        // 只在开发模式中启用热更新
-                        hmr: devMode,
-                        // 如果模块热更新不起作用，重新加载全部样式
-                        reloadAll: true,
-                      },
+                      // options: {
+                      //   // 只在开发模式中启用热更新
+                      //   hmr: devMode,
+                      //   // 如果模块热更新不起作用，重新加载全部样式
+                      //   reloadAll: true,
+                      // },
                     },
                     'css-loader','postcss-loader','sass-loader'
                 ],
@@ -115,10 +117,10 @@ const baseConfig = {
         }),
         
         new CleanWebpackPlugin(),
-        new webpack.ProvidePlugin({ 
-          $:'jquery',
-          _:'lodash'
-        })
+        // new webpack.ProvidePlugin({ 
+        //   $:'jquery',
+        //   _:'lodash'
+        // })
         // new webpack.HotModuleReplacementPlugin(),
     ],
     output: {
