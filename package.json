@@ -10,9 +10,9 @@
     "bundle": "webpack",
     "start": "webpack-dev-server",
     "server": "node ./server.js",
-    "dev": "webpack-dev-server --config ./build/webpack.dev.conf.js",
-    "dev-build": "webpack --config ./build/webpack.dev.conf.js",
-    "build": "webpack  --env.production --config ./build/webpack.prod.conf.js"
+    "dev": "webpack-dev-server --config ./build/webpack.base.conf.js",
+    "dev-build": "webpack --config ./build/webpack.base.conf.js",
+    "build": "webpack  --env.production --config ./build/webpack.base.conf.js"
   },
   "author": "",
   "license": "ISC",

@@ -2,52 +2,38 @@
  * @Descripttion: 
  * @version: 
  * @Author: dpx
- * @Date: 2020-06-02 12:00:29
+ * @Date: 2020-06-04 13:44:37
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-04 16:45:38
- */
-// import avatar from './avatar.jpg';
-// import style from './index.scss'
-// import {creatImg} from './avt'
-
-// new creatImg()
-// var img = new Image();
-// img.src = avatar;
-// img.classList.add(style.avater)
-// var root = document.getElementById('root');
-// root.append(img);
-// import './index.scss'
+ * @LastEditTime: 2020-06-08 14:25:49
+ */ 
 // import creatDiv from './avt'
 // import creatDivs from './avt copy'
-// import ArrShow from './es6'
-// import 'babel-polyfill'
-import React,{Component} from 'react'
-import ReactDom from 'react-dom'
-// let root = document.getElementById('root')
+import {add} from './count'
+// import _ from 'loadsh'
+// import './index.scss'
 
-// root.innerHTML = '<div class="iconfont icon-guide2">aaa</div>'
+function getComponents(){
+  // return import(/* webpackChunkName:'lodash' */'lodash').then(({default:_})=>{
+    return import(/* webpackPrefetch:true *//* webpackChunkName:'lodash' */'lodash').then(({default:_})=>{
+    let foo = document.createElement('div')
+    foo.innerHTML = _.join(['xing','x'],'%')
+    return foo
+  })
+}
 
-// console.log('qqqqqqqqss')
+document.addEventListener('click',()=>{
+  getComponents().then((el)=>{
+    document.body.appendChild(el)
+  })
+})
+
 // creatDiv()
 // creatDivs()
-
-// ArrShow()
-
-class App extends Component {
-  render (){
-    return <div>hello wsors</div>
-  }
-}
-ReactDom.render(<App/>,document.getElementById('root'))
+add(5,9)
+// add(3,9)
 
 
-
-
-
-if(module.hot){
-  module.hot.accept(()=>{
-    // document.body.removeChild(document.getElementById('number'))
-    // creatDivs()
-    ReactDom.render(<App/>,document.getElementById('root'))
-  })
+// console.log(_.join(['a','b','c'],'----'))
+if (module.hot) {
+  module.hot.accept()
 }

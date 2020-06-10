@@ -1,10 +1,13 @@
 {
-    "presets":[
-      ["babel-preset-env",{
-        "modules": false,
-      "useBuiltIns":"usage"
-    }],
-    "babel-preset-react"
+  "presets": [
+    "env",
+    "react",
+    "stage-0"
   ],
-  "plugins":["babel-plugin-syntax-dynamic-import"]
+  "plugins": [
+    "transform-class-properties",
+    "transform-decorators",
+    "transform-react-constant-elements",
+    "transform-react-inline-elements"
+  ]
 }
