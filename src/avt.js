@@ -4,19 +4,19 @@
  * @Author: dpx
  * @Date: 2020-06-02 16:03:31
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-04 16:35:17
+ * @LastEditTime: 2020-06-10 10:34:55
  */
-// import avatar from './avatar.jpg';
+import avatar from './avatar.jpg';
 
 
-// export function creatImg(){
-//   var img = new Image();
-//   img.src = avatar;
-//   img.classList.add('avater')
-//   var root = document.getElementById('root');
-//   root.append(img);
-// }
-let creatDiv = function() {
+export function creatImg(){
+  var img = new Image();
+  img.src = avatar;
+  img.classList.add('avater')
+  var root = document.getElementById('root');
+  root.append(img);
+}
+export function creatDiv() {
     let btn = document.createElement('button')
     btn.innerHTML = 'BTN'
     document.body.appendChild(btn)
@@ -32,4 +32,4 @@ let creatDiv = function() {
         document.body.appendChild(fooDiv)
     }
 }
-export default creatDiv
+// export default creatDiv

@@ -4,7 +4,7 @@
  * @Author: dpx
  * @Date: 2020-06-02 12:00:29
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-09 10:57:30
+ * @LastEditTime: 2020-06-10 11:35:53
  * ==================
  * 1.source-map 方式
  * 2.bable-polyfill  useBuiltIns:'usage' 转义ES6=>ES5 增大文件体积 
@@ -19,6 +19,9 @@
  * 5.imports-loader {loader:'imports-loader?this => window'} 改变this指向
  * ==================
  * 6.环境变量使用 module.exports = (env) =>{if(env && env.production){return merge()}}
+ * ==================
+ * PWA
+ * npm install workbox-webpack-plugin -d
  * 
  */
 const path = require("path");
@@ -27,10 +30,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const merge = require("webpack-merge")
-const webpack = require("webpack");
+// const webpack = require("webpack");
 const prodConfig = require("./webpack.prod.conf")
 const devConfig = require("./webpack.dev.conf")
-
 const baseConfig = {
     entry: {
         main: "./src/index.js",
@@ -76,18 +78,18 @@ const baseConfig = {
                 },
             },
             {
-                test: /\.scss$/,
+                test: /\.(scss|css)$/,
                 use: [
-                  MiniCssExtractPlugin.loader,
                     {
-                        loader: "css-loader",
-                        options: {
-                            // importLoaders: 2,
-                            // modules:true
-                        },
+                      loader: MiniCssExtractPlugin.loader,
+                      // options: {
+                      //   // 只在开发模式中启用热更新
+                      //   hmr: devMode,
+                      //   // 如果模块热更新不起作用，重新加载全部样式
+                      //   reloadAll: true,
+                      // },
                     },
-                    "sass-loader",
-                    "postcss-loader",
+                    'css-loader','postcss-loader','sass-loader'
                 ],
             },
         ],
@@ -110,21 +112,21 @@ const baseConfig = {
             template: "src/index.html",
         }),
         new MiniCssExtractPlugin({
-          filename: "[name].css",
-          chunkFilename: "[name].chunk.css"
+          filename: "css/[name].css",
+          chunkFilename: "css/[name].chunk.css"
         }),
         
         new CleanWebpackPlugin(),
-        new webpack.ProvidePlugin({ 
-          $:'jquery',
-          _:'lodash'
-        })
+        // new webpack.ProvidePlugin({ 
+        //   $:'jquery',
+        //   _:'lodash'
+        // })
         // new webpack.HotModuleReplacementPlugin(),
     ],
     output: {
         publicPath: "/",
-        filename: "[name]_[hash].js",
-        chunkFilename:"[name].chunk.js",// main 引用的用 chunkFilename
+        filename: "js/[name]_[hash].js",
+        chunkFilename:"js/[name].chunk.js",// main 引用的用 chunkFilename
         path: path.resolve(__dirname, "../dist"),
     },
 };
