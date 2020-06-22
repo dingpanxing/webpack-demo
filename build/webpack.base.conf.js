@@ -27,10 +27,12 @@
 const path = require("path");
 // const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const {
+    CleanWebpackPlugin
+} = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const merge = require("webpack-merge")
-// const webpack = require("webpack");
+    // const webpack = require("webpack");
 const prodConfig = require("./webpack.prod.conf")
 const devConfig = require("./webpack.dev.conf")
 const baseConfig = {
@@ -44,19 +46,29 @@ const baseConfig = {
     // devtool: 'cheap-module-eval-source-map',dev
     // devtool: 'cheap-module-source-map',pro
     module: {
-        rules: [
-          {
-            test:/\.js$/,
-            exclude:/node_modules/,
-            loader:"babel-loader",
-            // options: {  plugins: ["transform-class-properties"] }
-            // options:{
-            //   presets:[["babel-preset-env",{
-            //     useBuiltIns:'usage'
-            //   }]]
-            // }
-          },
-          {
+        rules: [{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "babel-loader",
+                // options: {  plugins: ["transform-class-properties"] }
+                // options:{
+                //   presets:[["babel-preset-env",{
+                //     useBuiltIns:'usage'
+                //   }]]
+                // }
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                loader: "ts-loader",
+                // options: {  plugins: ["transform-class-properties"] }
+                // options:{
+                //   presets:[["babel-preset-env",{
+                //     useBuiltIns:'usage'
+                //   }]]
+                // }
+            },
+            {
                 test: /\.(jpg|gif|png)$/,
                 use: {
                     loader: "url-loader",
@@ -79,27 +91,28 @@ const baseConfig = {
             },
             {
                 test: /\.(scss|css)$/,
-                use: [
-                    {
-                      loader: MiniCssExtractPlugin.loader,
-                      // options: {
-                      //   // 只在开发模式中启用热更新
-                      //   hmr: devMode,
-                      //   // 如果模块热更新不起作用，重新加载全部样式
-                      //   reloadAll: true,
-                      // },
+                use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                        // options: {
+                        //   // 只在开发模式中启用热更新
+                        //   hmr: devMode,
+                        //   // 如果模块热更新不起作用，重新加载全部样式
+                        //   reloadAll: true,
+                        // },
                     },
-                    'css-loader','postcss-loader','sass-loader'
+                    'css-loader', 'postcss-loader', 'sass-loader'
                 ],
             },
         ],
     },
-    optimization:{ // tree-shaking
-      runtimeChunk:{name:'sigle'}, // 新老版本 hash值变化 （老版本缓存失效 不改变内容 也会打包新hash）
-      usedExports:true,
-      splitChunks:{
-        chunks:'all',
-      }
+    optimization: { // tree-shaking
+        runtimeChunk: {
+            name: 'sigle'
+        }, // 新老版本 hash值变化 （老版本缓存失效 不改变内容 也会打包新hash）
+        usedExports: true,
+        splitChunks: {
+            chunks: 'all',
+        }
     },
     plugins: [
         // new FileManagerPlugin({
@@ -112,10 +125,10 @@ const baseConfig = {
             template: "src/index.html",
         }),
         new MiniCssExtractPlugin({
-          filename: "css/[name].css",
-          chunkFilename: "css/[name].chunk.css"
+            filename: "css/[name].css",
+            chunkFilename: "css/[name].chunk.css"
         }),
-        
+
         new CleanWebpackPlugin(),
         // new webpack.ProvidePlugin({ 
         //   $:'jquery',
@@ -126,14 +139,14 @@ const baseConfig = {
     output: {
         publicPath: "/",
         filename: "js/[name]_[hash].js",
-        chunkFilename:"js/[name].chunk.js",// main 引用的用 chunkFilename
+        chunkFilename: "js/[name].chunk.js", // main 引用的用 chunkFilename
         path: path.resolve(__dirname, "../dist"),
     },
 };
-module.exports = (env)=>{
-  if (env && env.production){
-    return merge(baseConfig,prodConfig)
-  } else {
-    return merge(baseConfig,devConfig)
-  }
+module.exports = (env) => {
+    if (env && env.production) {
+        return merge(baseConfig, prodConfig)
+    } else {
+        return merge(baseConfig, devConfig)
+    }
 }

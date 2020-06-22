@@ -17,10 +17,21 @@ const devConfig = {
         contentBase: "./dist",
         port: 8080,
         open: true,
+        historyApiFallback: true, //history模式
+        proxy: {
+            '/react': {
+                target: 'http://www.dell-lee.com',
+                changeOrigin: true, //突破限制元
+                secure: true, //https
+                pathRewrite: {
+                    '/react': '/react'
+                }
+            }
+        },
         hotOnly: true //如果HMR失效 不刷新
     },
     devtool: "cheap-mudule-eval-source-map",
-    
+
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
     ],
