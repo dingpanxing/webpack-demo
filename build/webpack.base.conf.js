@@ -4,7 +4,7 @@
  * @Author: dpx
  * @Date: 2020-06-02 12:00:29
  * @LastEditors: dpx
- * @LastEditTime: 2020-06-10 11:35:53
+ * @LastEditTime: 2020-06-24 13:47:24
  * ==================
  * 1.source-map 方式
  * 2.bable-polyfill  useBuiltIns:'usage' 转义ES6=>ES5 增大文件体积 
@@ -27,6 +27,7 @@
 const path = require("path");
 // const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const fs = require('fs');
 const {
     CleanWebpackPlugin
 } = require("clean-webpack-plugin");
@@ -35,6 +36,52 @@ const merge = require("webpack-merge")
     // const webpack = require("webpack");
 const prodConfig = require("./webpack.prod.conf")
 const devConfig = require("./webpack.dev.conf")
+
+// 打包多页面和dllplugin
+const makePlugins = (configs) => {
+	const plugins = [
+    // new FileManagerPlugin({
+        //     onStart: {
+        //         // 删除压缩包
+        //         delete: ["dist"],
+        //     },
+        // }),
+      new MiniCssExtractPlugin({
+          filename: "css/[name].css",
+          chunkFilename: "css/[name].chunk.css"
+      }),
+      new CleanWebpackPlugin(),
+      // new webpack.ProvidePlugin({ 
+      //   $:'jquery',
+      //   _:'lodash'
+      // })
+      // new webpack.HotModuleReplacementPlugin(),
+	];
+	Object.keys(configs.entry).forEach(item => {
+		plugins.push(
+			new HtmlWebpackPlugin({
+				template: 'src/index.html',
+				filename: `${item}.html`,
+				chunks: ['runtime', 'vendors', item]
+			})
+		)
+	});
+	const files = fs.readdirSync(path.resolve(__dirname, '../dll'));
+	files.forEach(file => {
+		if(/.*\.dll.js/.test(file)) {
+			plugins.push(new AddAssetHtmlWebpackPlugin({
+				filepath: path.resolve(__dirname, '../dll', file)
+			}))
+		}
+		if(/.*\.manifest.json/.test(file)) {
+			plugins.push(new webpack.DllReferencePlugin({
+				manifest: path.resolve(__dirname, '../dll', file)
+			}))
+		}
+	});
+	return plugins;
+}
+
 const baseConfig = {
     entry: {
         main: "./src/index.js",
@@ -114,28 +161,6 @@ const baseConfig = {
             chunks: 'all',
         }
     },
-    plugins: [
-        // new FileManagerPlugin({
-        //     onStart: {
-        //         // 删除压缩包
-        //         delete: ["dist"],
-        //     },
-        // }),
-        new HtmlWebpackPlugin({
-            template: "src/index.html",
-        }),
-        new MiniCssExtractPlugin({
-            filename: "css/[name].css",
-            chunkFilename: "css/[name].chunk.css"
-        }),
-
-        new CleanWebpackPlugin(),
-        // new webpack.ProvidePlugin({ 
-        //   $:'jquery',
-        //   _:'lodash'
-        // })
-        // new webpack.HotModuleReplacementPlugin(),
-    ],
     output: {
         publicPath: "/",
         filename: "js/[name]_[hash].js",
@@ -143,6 +168,7 @@ const baseConfig = {
         path: path.resolve(__dirname, "../dist"),
     },
 };
+baseConfig.plugins = makePlugins(baseConfig);
 module.exports = (env) => {
     if (env && env.production) {
         return merge(baseConfig, prodConfig)
